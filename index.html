@@ -134,22 +134,56 @@
     .quick-contact{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:14px;
+      gap:14px;
+      margin-top:18px;
       max-width:640px;
     }
 
-    .mini-contact{
+    .contact-card{
       display:flex;
       align-items:center;
-      gap:10px;
-      background:rgba(255,255,255,.82);
-      border:1px solid rgba(7,48,67,.12);
-      border-radius:20px;
-      padding:13px 15px;
-      color:var(--deep);
-      font-weight:900;
+      gap:14px;
+      background:rgba(255,255,255,.9);
+      border:1px solid rgba(7,48,67,.10);
+      border-radius:24px;
+      padding:16px 18px;
       box-shadow:0 12px 28px rgba(7,48,67,.07);
+      transition:.2s;
+      min-height:82px;
+    }
+
+    .contact-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 16px 34px rgba(7,48,67,.12);
+    }
+
+    .contact-icon{
+      font-size:25px;
+      width:42px;
+      height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:15px;
+      background:linear-gradient(135deg,rgba(30,203,225,.18),rgba(255,127,110,.16));
+      flex:0 0 42px;
+    }
+
+    .contact-card small{
+      display:block;
+      color:#6b7280;
+      font-size:12px;
+      font-weight:800;
+      margin-bottom:2px;
+      letter-spacing:.02em;
+    }
+
+    .contact-card strong{
+      color:#073043;
+      font-size:15px;
+      line-height:1.2;
+      font-weight:950;
+      word-break:break-word;
     }
 
     .portrait-card{
@@ -405,6 +439,7 @@
       .navlinks{display:none}
       .portrait{height:430px;background-position:center 32%}
       .hero-actions,.quick-contact{grid-template-columns:1fr}
+      .contact-card{min-height:auto}
       .trustbar{grid-template-columns:repeat(2,1fr)}
     }
 
@@ -454,8 +489,20 @@
         </div>
 
         <div class="quick-contact">
-          <a class="mini-contact" href="mailto:elenafuntravel@gmail.com">✉️ elenafuntravel@gmail.com</a>
-          <a class="mini-contact" href="tel:19085651842">📞 (908) 565-1842</a>
+          <a class="contact-card" href="mailto:elenafuntravel@gmail.com">
+            <span class="contact-icon">✉️</span>
+            <div>
+              <small>Email</small>
+              <strong>elenafuntravel@gmail.com</strong>
+            </div>
+          </a>
+          <a class="contact-card" href="tel:19085651842">
+            <span class="contact-icon">📞</span>
+            <div>
+              <small>Call or Text</small>
+              <strong>(908) 565-1842</strong>
+            </div>
+          </a>
         </div>
 
         <div class="trustbar">
