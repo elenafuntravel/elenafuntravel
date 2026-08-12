@@ -10,7 +10,27 @@
   <meta property="og:title" content="Elena Fun Travel" />
   <meta property="og:description" content="Cruises • Disney • Beach Vacations — personalized vacation planning with Elena." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/elena-profile.jpg" />
+  <meta property="og:url" content="https://elenafuntravel.com/" />
+  <meta property="og:image" content="https://elenafuntravel.com/assets/elena-profile.jpg" />
+
+  <link rel="canonical" href="https://elenafuntravel.com/" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Elena Fun Travel",
+    "image": "https://elenafuntravel.com/assets/elena-profile.jpg",
+    "url": "https://elenafuntravel.com/",
+    "email": "elenafuntravel@gmail.com",
+    "telephone": "+19085651842",
+    "sameAs": [
+      "https://www.instagram.com/elenafuntravel/?hl=en",
+      "https://www.facebook.com/elena.podolyan.2025"
+    ]
+  }
+  </script>
 
   <style>
     :root{
@@ -60,6 +80,20 @@
     .brand{font-weight:1000;letter-spacing:.08em;color:var(--deep)}
     .navlinks{display:flex;gap:18px;font-size:14px;color:var(--muted);font-weight:800}
     .navlinks a:hover{color:var(--teal)}
+
+    .nav-toggle{display:none}
+    .nav-burger{display:none;cursor:pointer;padding:6px}
+    .nav-burger span,.nav-burger span:before,.nav-burger span:after{
+      content:"";
+      display:block;
+      width:22px;
+      height:2px;
+      background:var(--deep);
+      border-radius:2px;
+    }
+    .nav-burger span{position:relative}
+    .nav-burger span:before{position:absolute;top:-7px}
+    .nav-burger span:after{position:absolute;top:7px}
 
     .hero{padding:58px 0 34px}
     .hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:42px;align-items:center}
@@ -218,12 +252,18 @@
     .portrait{
       height:540px;
       border-radius:32px;
-      background-image:url("assets/elena-profile.jpg");
-      background-size:cover;
-      background-position:center 36%;
       position:relative;
       overflow:hidden;
       z-index:1;
+    }
+    .portrait img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center 36%;
+      z-index:0;
     }
     .portrait:after{
       content:"";
@@ -233,6 +273,7 @@
       bottom:0;
       height:46%;
       background:linear-gradient(transparent,rgba(231,251,255,.97));
+      z-index:1;
     }
     .badge-corner{
       position:absolute;
@@ -273,7 +314,7 @@
       text-align:center;
       box-shadow:0 12px 30px rgba(6,59,76,.07);
     }
-    .trust b{display:block;font-size:25px;color:var(--turq)}
+    .trust b{display:block;font-size:25px;color:var(--teal)}
     .trust span{font-size:13px;color:var(--muted);font-weight:850}
 
     section{padding:54px 0}
@@ -436,8 +477,13 @@
 
     @media(max-width:960px){
       .hero-grid,.about,.cards,.reviews,.destination-grid{grid-template-columns:1fr}
-      .navlinks{display:none}
-      .portrait{height:430px;background-position:center 32%}
+      .nav .wrap{flex-wrap:wrap}
+      .nav-burger{display:block}
+      .navlinks{display:none;flex-direction:column;width:100%;gap:0;padding-top:10px}
+      .navlinks a{padding:12px 0;border-top:1px solid var(--line)}
+      .nav-toggle:checked ~ .navlinks{display:flex}
+      .portrait img{object-position:center 32%}
+      .portrait{height:430px}
       .hero-actions,.quick-contact{grid-template-columns:1fr}
       .contact-card{min-height:auto}
       .trustbar{grid-template-columns:repeat(2,1fr)}
@@ -456,6 +502,8 @@
   <nav class="nav">
     <div class="wrap">
       <div class="brand">ELENA FUN TRAVEL</div>
+      <input type="checkbox" id="navToggle" class="nav-toggle" />
+      <label for="navToggle" class="nav-burger" aria-label="Toggle navigation menu"><span></span></label>
       <div class="navlinks">
         <a href="#services">Services</a>
         <a href="#about">About</a>
@@ -515,6 +563,7 @@
 
       <aside class="portrait-card">
         <div class="portrait">
+          <img src="assets/elena-profile.jpg" alt="Elena Podolyan, travel advisor at Elena Fun Travel" />
           <div class="badge-corner">🚢 Cruise Specialist</div>
           <div class="photo-title">
             <h2>ELENA PODOLYAN</h2>
@@ -598,7 +647,7 @@
       <h2 class="section-title">Want to earn from travel?</h2>
       <p class="section-note">See how travel can become more than a passion — and what the industry actually looks like.</p>
       <div class="video">
-        <iframe src="https://player.vimeo.com/video/1012841798" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <iframe title="Earn From Travel — income opportunity video" src="https://player.vimeo.com/video/1012841798" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div class="linkstack" style="margin-top:18px">
         <a class="biglink earn" href="https://player.vimeo.com/video/1012841798" target="_blank" rel="noopener"><span>▶ Watch the Travel Income Video<small>Learn what this opportunity actually looks like</small></span><span>→</span></a>
