@@ -475,6 +475,51 @@
     }
     .footer a{font-weight:900;color:var(--teal-dark)}
 
+    .music-toggle{
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      z-index:50;
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      border:none;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--teal),var(--aqua));
+      color:white;
+      font-size:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 14px 34px rgba(0,166,166,.35);
+      transition:.2s;
+    }
+    .music-toggle:hover{transform:translateY(-2px)}
+    .music-toggle[aria-pressed="true"]{
+      background:linear-gradient(135deg,var(--coral),var(--pink));
+      box-shadow:0 14px 34px rgba(255,111,174,.35);
+    }
+    .music-toggle .bars{display:flex;align-items:flex-end;gap:3px;height:16px}
+    .music-toggle .bars span{
+      display:block;
+      width:3px;
+      background:white;
+      border-radius:2px;
+      height:6px;
+      animation:none;
+    }
+    .music-toggle[aria-pressed="true"] .bars span{animation:bar 0.9s ease-in-out infinite}
+    .music-toggle .bars span:nth-child(1){animation-delay:0s}
+    .music-toggle .bars span:nth-child(2){animation-delay:.2s}
+    .music-toggle .bars span:nth-child(3){animation-delay:.4s}
+    @keyframes bar{
+      0%,100%{height:6px}
+      50%{height:16px}
+    }
+    @media(max-width:520px){
+      .music-toggle{right:16px;bottom:16px;width:50px;height:50px}
+    }
+
     @media(max-width:960px){
       .hero-grid,.about,.cards,.reviews,.destination-grid{grid-template-columns:1fr}
       .nav .wrap{flex-wrap:wrap}
@@ -663,5 +708,31 @@
     <a href="https://www.instagram.com/elenafuntravel/?hl=en" target="_blank" rel="noopener">Instagram</a> •
     <a href="https://www.facebook.com/elena.podolyan.2025" target="_blank" rel="noopener">Facebook</a>
   </footer>
+
+  <audio id="bgMusic" loop preload="none">
+    <source src="assets/bg-music.wav" type="audio/wav" />
+  </audio>
+  <button id="musicToggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Play background music">
+    <span class="bars"><span></span><span></span><span></span></span>
+  </button>
+
+  <script>
+    (function(){
+      var btn = document.getElementById('musicToggle');
+      var audio = document.getElementById('bgMusic');
+      audio.volume = 0.35;
+      btn.addEventListener('click', function(){
+        if (audio.paused) {
+          audio.play().catch(function(){});
+          btn.setAttribute('aria-pressed', 'true');
+          btn.setAttribute('aria-label', 'Pause background music');
+        } else {
+          audio.pause();
+          btn.setAttribute('aria-pressed', 'false');
+          btn.setAttribute('aria-label', 'Play background music');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
