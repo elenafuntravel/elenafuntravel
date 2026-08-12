@@ -743,9 +743,7 @@
     <a href="https://www.facebook.com/elena.podolyan.2025" target="_blank" rel="noopener">Facebook</a>
   </footer>
 
-  <audio id="bgMusic" loop preload="auto">
-    <source src="assets/bg-music.mp3" type="audio/mpeg" />
-  </audio>
+  <audio id="bgMusic" preload="auto"></audio>
   <div id="musicPrompt" class="music-prompt">🔊 Tap for music</div>
   <button id="musicToggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Play background music">
     <span class="bars"><span></span><span></span><span></span></span>
@@ -757,6 +755,27 @@
       var audio = document.getElementById('bgMusic');
       var prompt = document.getElementById('musicPrompt');
       audio.volume = 0.35;
+
+      var playlist = [
+        'assets/sunset-house-grooves-tropical-house-paradise-538758.mp3',
+        'assets/rediskasound-house-tropical-instrumental-music-575710.mp3'
+      ];
+      function shuffle(arr){
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+        }
+        return arr;
+      }
+      var order = shuffle(playlist.slice());
+      var trackIndex = 0;
+      audio.src = order[trackIndex];
+      audio.addEventListener('ended', function(){
+        trackIndex = (trackIndex + 1) % order.length;
+        if (trackIndex === 0) order = shuffle(playlist.slice());
+        audio.src = order[trackIndex];
+        audio.play().catch(function(){});
+      });
 
       function hidePrompt(){
         prompt.classList.add('hide');
