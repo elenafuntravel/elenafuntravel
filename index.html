@@ -520,6 +520,40 @@
       .music-toggle{right:16px;bottom:16px;width:50px;height:50px}
     }
 
+    .music-prompt{
+      position:fixed;
+      right:22px;
+      bottom:86px;
+      z-index:50;
+      background:var(--deep);
+      color:white;
+      font-size:13px;
+      font-weight:800;
+      padding:10px 16px;
+      border-radius:999px;
+      box-shadow:0 12px 28px rgba(7,48,67,.28);
+      cursor:pointer;
+      white-space:nowrap;
+      animation:promptPop .3s ease, promptFloat 1.6s ease-in-out .3s infinite;
+      transition:opacity .3s, transform .3s;
+    }
+    .music-prompt:after{
+      content:"";
+      position:absolute;
+      right:22px;
+      bottom:-6px;
+      width:12px;
+      height:12px;
+      background:var(--deep);
+      transform:rotate(45deg);
+    }
+    .music-prompt.hide{opacity:0;transform:translateY(6px);pointer-events:none}
+    @keyframes promptPop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes promptFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    @media(max-width:520px){
+      .music-prompt{right:16px;bottom:76px;font-size:12px;padding:9px 14px}
+    }
+
     @media(max-width:960px){
       .hero-grid,.about,.cards,.reviews,.destination-grid{grid-template-columns:1fr}
       .nav .wrap{flex-wrap:wrap}
@@ -712,6 +746,7 @@
   <audio id="bgMusic" loop preload="auto">
     <source src="assets/bg-music.mp3" type="audio/mpeg" />
   </audio>
+  <div id="musicPrompt" class="music-prompt">🔊 Tap for music</div>
   <button id="musicToggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Play background music">
     <span class="bars"><span></span><span></span><span></span></span>
   </button>
@@ -720,28 +755,39 @@
     (function(){
       var btn = document.getElementById('musicToggle');
       var audio = document.getElementById('bgMusic');
+      var prompt = document.getElementById('musicPrompt');
       audio.volume = 0.35;
+
+      function hidePrompt(){
+        prompt.classList.add('hide');
+      }
 
       function setPlaying(isPlaying){
         btn.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
         btn.setAttribute('aria-label', isPlaying ? 'Pause background music' : 'Play background music');
+        if (isPlaying) hidePrompt();
       }
 
       function playAudio(){
         return audio.play().then(function(){ setPlaying(true); }).catch(function(){});
       }
 
-      // Browsers block autoplay-with-sound until the visitor interacts with
-      // the page. Try immediately; if blocked, start on the first tap/click/
-      // key press anywhere (except the toggle button, which has its own handler).
+      // Browsers block autoplay-with-sound until the visitor makes a qualifying
+      // gesture (click/tap/key press — a mouse-wheel scroll does NOT count).
+      // Try immediately; if blocked, the floating prompt or any click/tap/key
+      // elsewhere on the page starts it.
       function firstInteraction(e){
-        if (btn.contains(e.target)) return;
+        if (btn.contains(e.target) || prompt.contains(e.target)) return;
         document.removeEventListener('pointerdown', firstInteraction);
         document.removeEventListener('keydown', firstInteraction);
         if (audio.paused) playAudio();
       }
       document.addEventListener('pointerdown', firstInteraction);
       document.addEventListener('keydown', firstInteraction);
+
+      prompt.addEventListener('click', function(){
+        playAudio();
+      });
 
       btn.addEventListener('click', function(){
         if (audio.paused) {
@@ -753,6 +799,9 @@
       });
 
       playAudio();
+
+      // Don't let the prompt linger indefinitely if it's ignored.
+      setTimeout(hidePrompt, 8000);
     })();
   </script>
 </body>
