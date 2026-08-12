@@ -709,8 +709,8 @@
     <a href="https://www.facebook.com/elena.podolyan.2025" target="_blank" rel="noopener">Facebook</a>
   </footer>
 
-  <audio id="bgMusic" loop preload="none">
-    <source src="assets/bg-music.wav" type="audio/wav" />
+  <audio id="bgMusic" loop preload="auto">
+    <source src="assets/bg-music.mp3" type="audio/mpeg" />
   </audio>
   <button id="musicToggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Play background music">
     <span class="bars"><span></span><span></span><span></span></span>
@@ -721,17 +721,38 @@
       var btn = document.getElementById('musicToggle');
       var audio = document.getElementById('bgMusic');
       audio.volume = 0.35;
+
+      function setPlaying(isPlaying){
+        btn.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+        btn.setAttribute('aria-label', isPlaying ? 'Pause background music' : 'Play background music');
+      }
+
+      function playAudio(){
+        return audio.play().then(function(){ setPlaying(true); }).catch(function(){});
+      }
+
+      // Browsers block autoplay-with-sound until the visitor interacts with
+      // the page. Try immediately; if blocked, start on the first tap/click/
+      // key press anywhere (except the toggle button, which has its own handler).
+      function firstInteraction(e){
+        if (btn.contains(e.target)) return;
+        document.removeEventListener('pointerdown', firstInteraction);
+        document.removeEventListener('keydown', firstInteraction);
+        if (audio.paused) playAudio();
+      }
+      document.addEventListener('pointerdown', firstInteraction);
+      document.addEventListener('keydown', firstInteraction);
+
       btn.addEventListener('click', function(){
         if (audio.paused) {
-          audio.play().catch(function(){});
-          btn.setAttribute('aria-pressed', 'true');
-          btn.setAttribute('aria-label', 'Pause background music');
+          playAudio();
         } else {
           audio.pause();
-          btn.setAttribute('aria-pressed', 'false');
-          btn.setAttribute('aria-label', 'Play background music');
+          setPlaying(false);
         }
       });
+
+      playAudio();
     })();
   </script>
 </body>
